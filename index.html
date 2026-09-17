@@ -5,536 +5,869 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="SKINZIP.PLAN">
+<meta name="apple-mobile-web-app-title" content="REMI.FLOW">
 <meta name="color-scheme" content="light only">
 <link rel="icon" type="image/svg+xml" href="icon.svg">
 <link rel="apple-touch-icon" href="icon.svg">
-<title>SKINZIP.PLAN</title>
+<title>REMI.FLOW</title>
 <style>
-:root { color-scheme: light only; }
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-html { background: #F2F2F7 !important; }
-body {
-  background: #F2F2F7 !important; color: #1C1C1E !important;
-  font-family: -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif;
-  min-height: 100vh; -webkit-text-size-adjust: 100%;
+:root {
+  --bg: #F5F5F0;
+  --surface: #FFFFFF;
+  --border: #E8E8E4;
+  --text: #1A1A1A;
+  --text2: #555;
+  --text3: #999;
+  --accent: #2E7D4F;
+  --accent2: #059669;
+  --blue: #3B82F6;
+  --orange: #D97706;
+  --purple: #7C3AED;
+  --danger: #EF4444;
+  --warning: #F59E0B;
+  --radius: 14px;
+  --shadow: 0 1px 4px rgba(0,0,0,0.08);
 }
-.app { max-width: 480px; margin: 0 auto; padding-bottom: 84px; background: #F2F2F7; min-height: 100vh; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { background: var(--bg) !important; color: var(--text) !important; font-family: -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif; min-height: 100vh; -webkit-text-size-adjust: 100%; color-scheme: light only; }
+.app { max-width: 480px; margin: 0 auto; min-height: 100vh; background: var(--bg); padding-bottom: 72px; }
 
-/* HEADER */
-.hdr { background: #fff !important; padding: 14px 16px 0; border-bottom: 1px solid #E5E5EA; position: sticky; top: 0; z-index: 100; }
-.hdr-top { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; }
-.logo { font-size: 18px; font-weight: 800; color: #1C1C1E !important; letter-spacing: -0.5px; }
-.logo em { color: #1B7A3E; font-style: normal; }
-.date-badge { font-size: 11px; color: #8E8E93 !important; background: #F2F2F7; padding: 4px 10px; border-radius: 12px; }
-.dots { display: flex; gap: 5px; justify-content: center; padding: 8px 0 10px; }
-.dot { width: 6px; height: 6px; border-radius: 3px; background: #D1D1D6; transition: all 0.2s; }
-.dot.on { width: 20px; }
+/* ── HEADER ── */
+.hdr { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 16px 12px; position: sticky; top: 0; z-index: 100; }
+.hdr-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.logo { font-size: 18px; font-weight: 800; color: var(--text); letter-spacing: -0.5px; }
+.logo em { color: var(--accent); font-style: normal; }
+.today { font-size: 11px; color: var(--text3); background: var(--bg); padding: 4px 10px; border-radius: 12px; font-weight: 500; }
+.page-dots { display: flex; gap: 5px; justify-content: center; }
+.pdot { width: 5px; height: 5px; border-radius: 3px; background: #D1D1D6; transition: all 0.2s; }
+.pdot.on { width: 18px; }
 
-/* SWIPE */
+/* ── SWIPE ── */
 .sw-wrap { overflow: hidden; touch-action: pan-y; }
-.sw-inner { display: flex; transition: transform 0.32s cubic-bezier(0.25,0.46,0.45,0.94); }
+.sw-inner { display: flex; transition: transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94); will-change: transform; }
 .sw-page { min-width: 100vw; max-width: 480px; padding: 14px 14px 0; }
 
-/* CARDS */
-.sec-label { font-size: 11px; font-weight: 700; color: #8E8E93 !important; text-transform: uppercase; letter-spacing: 0.07em; margin: 0 2px 7px; }
-.wcard { background: #fff !important; border-radius: 14px; overflow: hidden; margin-bottom: 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
-.crow { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-bottom: 1px solid #F2F2F7; }
-.crow:last-child { border-bottom: none; }
-.cdot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.cbody { flex: 1; min-width: 0; }
-.ctitle { font-size: 14px; font-weight: 500; color: #1C1C1E !important; }
-.csub { font-size: 11px; color: #8E8E93 !important; margin-top: 2px; }
-.ctag { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 8px; flex-shrink: 0; }
-.mchk { width: 21px; height: 21px; border-radius: 6px; border: 1.5px solid #D1D1D6; background: #F9F9F9 !important; flex-shrink: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-.mchk.on { background: #1B7A3E !important; border-color: #1B7A3E; }
-.mchk svg { width: 11px; height: 11px; stroke: #fff; fill: none; stroke-width: 2.5; }
-.empty-box { text-align: center; padding: 24px; color: #C7C7CC !important; font-size: 13px; }
+/* ── COMMON ── */
+.sec-title { font-size: 11px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.07em; margin: 0 2px 7px; }
+.card { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; margin-bottom: 12px; }
+.card-row { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-bottom: 1px solid var(--bg); }
+.card-row:last-child { border-bottom: none; }
+.dot8 { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.row-body { flex: 1; min-width: 0; }
+.row-title { font-size: 14px; font-weight: 500; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row-sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
+.tag { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 8px; flex-shrink: 0; }
+.chk { width: 22px; height: 22px; border-radius: 7px; border: 1.5px solid #D1D1D6; background: #F9F9F9; flex-shrink: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.chk.on { background: var(--accent); border-color: var(--accent); }
+.chk svg { width: 12px; height: 12px; stroke: white; fill: none; stroke-width: 2.5; }
+.empty { text-align: center; padding: 24px; color: var(--text3); font-size: 13px; }
 
-/* STAT GRID */
-.sgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
-.sbox { background: #fff !important; border-radius: 13px; padding: 13px 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
-.slabel { font-size: 11px; color: #8E8E93 !important; font-weight: 600; margin-bottom: 5px; }
-.sval { font-size: 22px; font-weight: 700; color: #1C1C1E !important; }
-.ssub { font-size: 11px; color: #8E8E93 !important; margin-top: 2px; }
+/* ── HOME ── */
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+.stat-box { background: var(--surface); border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow); }
+.stat-label { font-size: 11px; color: var(--text3); font-weight: 600; margin-bottom: 6px; }
+.stat-val { font-size: 22px; font-weight: 700; color: var(--text); letter-spacing: -0.5px; }
+.stat-sub { font-size: 11px; color: var(--text3); margin-top: 3px; }
 
-/* DUAL PANEL (1호/2호 병렬) */
-.dual { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
-.dual-col { background: #fff !important; border-radius: 14px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
-.dual-head { padding: 10px 12px; font-size: 12px; font-weight: 700; }
-.dual-item { display: flex; align-items: center; gap: 8px; padding: 9px 12px; border-top: 1px solid #F2F2F7; cursor: pointer; }
-.dual-item-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-.dual-item-text { flex: 1; min-width: 0; font-size: 12px; color: #1C1C1E !important; line-height: 1.3; }
-.dual-item-text.crossed { text-decoration: line-through; color: #C7C7CC !important; }
-.dual-item-date { font-size: 10px; color: #8E8E93 !important; white-space: nowrap; }
-.dchk { width: 18px; height: 18px; border-radius: 5px; border: 1.5px solid #D1D1D6; background: #F9F9F9 !important; flex-shrink: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-.dchk.on { background: #1B7A3E !important; border-color: #1B7A3E; }
-.dchk svg { width: 10px; height: 10px; stroke: #fff; fill: none; stroke-width: 2.5; }
+/* FUND CARDS */
+.fund-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+.fund-card { background: var(--surface); border-radius: var(--radius); padding: 13px 14px; box-shadow: var(--shadow); }
+.fund-title { font-size: 12px; font-weight: 700; color: var(--text2); display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.fund-total { font-size: 20px; font-weight: 700; color: var(--danger); letter-spacing: -0.5px; margin-bottom: 8px; }
+.fund-item { display: flex; justify-content: space-between; font-size: 11px; color: var(--text3); padding: 2px 0; }
+.fund-item.done-item { opacity: 0.4; text-decoration: line-through; }
+.fund-remain { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--bg); display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; }
+.fund-chk { width: 20px; height: 20px; border-radius: 6px; border: 1.5px solid #D1D1D6; background: #F9F9F9; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; }
+.fund-chk.on { background: var(--accent); border-color: var(--accent); }
+.fund-chk svg { width: 11px; height: 11px; stroke: white; fill: none; stroke-width: 2.5; }
 
-/* TASK LIST */
-.mgrp { margin-bottom: 12px; }
-.mlabel { font-size: 11px; font-weight: 700; color: #C7C7CC !important; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; padding: 0 2px; }
-.tc { background: #fff !important; border-radius: 12px; margin-bottom: 5px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-.tc.done { opacity: 0.4; }
-.tc.urg { border-left: 3px solid #FF3B30; }
-.tc.hi  { border-left: 3px solid #FF9500; }
-.thead { display: flex; align-items: center; gap: 10px; padding: 11px 13px; cursor: pointer; }
-.tchk { width: 22px; height: 22px; border-radius: 7px; border: 1.5px solid #D1D1D6; background: #F9F9F9 !important; flex-shrink: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-.tchk.on { background: #1B7A3E !important; border-color: #1B7A3E; }
-.tchk svg { width: 12px; height: 12px; stroke: #fff; fill: none; stroke-width: 2.5; }
-.tbody { flex: 1; min-width: 0; }
-.tname { font-size: 14px; font-weight: 500; color: #1C1C1E !important; }
-.tname.crossed { text-decoration: line-through; color: #C7C7CC !important; }
-.tdate { font-size: 11px; color: #8E8E93 !important; margin-top: 2px; }
-.tarr { color: #D1D1D6 !important; font-size: 18px; flex-shrink: 0; transition: transform 0.2s; }
-.tarr.open { transform: rotate(90deg); }
-.tdet { display: none; padding: 0 13px 11px 45px; }
-.tdet.open { display: block; }
-.tdet-text { font-size: 13px; color: #3C3C43 !important; line-height: 1.6; margin-bottom: 4px; }
-.tdet-done { font-size: 11px; color: #8E8E93 !important; margin-bottom: 5px; }
-.tlink { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: #1B7A3E !important; background: #E8F5EE !important; padding: 4px 9px; border-radius: 7px; text-decoration: none; font-weight: 500; margin-bottom: 6px; }
+/* ── 가계부 ── */
+.month-tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 12px; scrollbar-width: none; }
+.month-tabs::-webkit-scrollbar { display: none; }
+.mtab { flex-shrink: 0; padding: 7px 13px; border-radius: 20px; border: 1.5px solid var(--border); background: var(--surface); color: var(--text2); font-size: 12px; cursor: pointer; font-weight: 500; }
+.mtab.on { color: white; border-color: transparent; }
+.sum-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+.sum-box { background: var(--surface); border-radius: 10px; padding: 10px 12px; box-shadow: var(--shadow); }
+.sum-label { font-size: 10px; color: var(--text3); margin-bottom: 3px; font-weight: 600; }
+.sum-val { font-size: 16px; font-weight: 700; }
+.prog-bar-wrap { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; margin-bottom: 12px; }
+.prog-bar-fill { height: 100%; border-radius: 2px; transition: width 0.3s; }
+.tx-section { margin-bottom: 10px; }
+.tx-sec-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+.tx-sec-label { font-size: 11px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.05em; }
+.tx-sec-total { font-size: 12px; font-weight: 700; }
+.tx-card { background: var(--surface); border-radius: 10px; margin-bottom: 4px; overflow: hidden; box-shadow: var(--shadow); }
+.tx-row { display: flex; align-items: center; gap: 10px; padding: 10px 12px; }
+.tx-row.done-tx { opacity: 0.38; }
+.tx-body { flex: 1; min-width: 0; }
+.tx-name { font-size: 13px; font-weight: 500; color: var(--text); }
+.tx-name.crossed { text-decoration: line-through; color: var(--text3); }
+.tx-date { font-size: 11px; color: var(--text3); }
+.tx-right { text-align: right; }
+.tx-amount { font-size: 13px; font-weight: 600; }
+.tx-amount.income { color: var(--blue); }
+.tx-amount.expense { color: var(--danger); }
+.tx-balance { font-size: 10px; color: var(--text3); }
+.add-item-btn { display: flex; align-items: center; justify-content: center; gap: 5px; padding: 8px; margin-bottom: 6px; background: var(--surface); border-radius: 10px; border: 1.5px dashed var(--border); cursor: pointer; color: var(--text3); font-size: 12px; font-weight: 500; box-shadow: var(--shadow); }
+.inline-form { display: none; background: var(--surface); border-radius: 12px; padding: 12px; margin-bottom: 8px; box-shadow: var(--shadow); }
+.inline-form.open { display: block; }
+.fi { width: 100%; padding: 9px 11px; border-radius: 9px; border: 1px solid var(--border); font-size: 13px; color: var(--text); background: var(--bg); outline: none; font-family: inherit; margin-bottom: 7px; -webkit-appearance: none; }
+.fi:focus { border-color: var(--accent); background: var(--surface); }
+.fi-row { display: flex; gap: 6px; }
+.f-btns { display: flex; gap: 6px; margin-top: 2px; }
+.f-ok { flex: 1; padding: 10px; border-radius: 9px; background: var(--accent); color: white; border: none; font-size: 13px; font-weight: 600; cursor: pointer; }
+.f-cancel { padding: 10px 13px; border-radius: 9px; background: var(--bg); color: var(--text3); border: none; font-size: 13px; cursor: pointer; }
+.totals-card { background: var(--surface); border-radius: var(--radius); padding: 12px 14px; box-shadow: var(--shadow); margin-top: 12px; }
+.tot-row { display: flex; justify-content: space-between; padding: 5px 0; font-size: 13px; color: var(--text2); }
+.tot-row.big { font-size: 15px; font-weight: 700; color: var(--text); border-top: 1px solid var(--border); margin-top: 6px; padding-top: 10px; }
 
-/* MEMO */
-.memo-box { background: #fff !important; border-radius: 14px; margin: 0 0 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); overflow: hidden; }
-.memo-head { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px 10px; border-bottom: 1px solid #F2F2F7; }
-.memo-head-title { font-size: 13px; font-weight: 600; color: #1C1C1E !important; }
-.memo-add-btn { font-size: 12px; color: #1B7A3E !important; background: #E8F5EE !important; padding: 4px 10px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; }
-.memo-list { padding: 4px 0; }
-.memo-item { display: flex; align-items: flex-start; gap: 8px; padding: 10px 14px; border-bottom: 1px solid #F2F2F7; }
-.memo-item:last-child { border-bottom: none; }
-.memo-dot { width: 7px; height: 7px; border-radius: 50%; background: #1B7A3E; flex-shrink: 0; margin-top: 4px; }
-.memo-text { flex: 1; font-size: 13px; color: #1C1C1E !important; line-height: 1.5; white-space: pre-wrap; word-break: break-all; }
-.memo-del { font-size: 16px; color: #C7C7CC !important; background: none; border: none; cursor: pointer; flex-shrink: 0; padding: 0 2px; line-height: 1; }
-.memo-form { display: none; padding: 10px 14px 12px; border-top: 1px solid #F2F2F7; }
-.memo-form.open { display: block; }
-.memo-textarea { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid #E5E5EA; font-size: 14px; color: #1C1C1E !important; background: #F9F9F9 !important; resize: none; outline: none; font-family: inherit; min-height: 72px; }
-.memo-textarea:focus { border-color: #1B7A3E; background: #fff !important; }
-.memo-btns { display: flex; gap: 8px; margin-top: 8px; }
-.mbtn-ok { flex: 1; padding: 10px; border-radius: 10px; background: #1B7A3E !important; color: #fff !important; border: none; font-size: 14px; font-weight: 600; cursor: pointer; }
-.mbtn-cancel { padding: 10px 14px; border-radius: 10px; background: #F2F2F7 !important; color: #8E8E93 !important; border: none; font-size: 14px; cursor: pointer; }
+/* ── SKINZIP PRODUCT CARDS ── */
+.prod-card { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 16px; overflow: hidden; }
+.prod-head { padding: 14px 16px 12px; }
+.prod-title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.prod-name { font-size: 17px; font-weight: 800; letter-spacing: -0.3px; }
+.prod-badge { font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 10px; }
+.prod-prog-wrap { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; margin-bottom: 6px; }
+.prod-prog { height: 100%; border-radius: 3px; transition: width 0.4s; }
+.prod-prog-nums { display: flex; justify-content: space-between; font-size: 11px; color: var(--text3); }
+.prod-items { border-top: 1px solid var(--bg); }
+.prod-item { border-bottom: 1px solid var(--bg); }
+.prod-item:last-child { border-bottom: none; }
+.prod-item-head { display: flex; align-items: center; gap: 10px; padding: 11px 14px; cursor: pointer; }
+.prod-item-chk { width: 22px; height: 22px; border-radius: 7px; border: 1.5px solid #D1D1D6; background: #F9F9F9; flex-shrink: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.prod-item-chk.on { background: var(--accent); border-color: var(--accent); }
+.prod-item-chk svg { width: 12px; height: 12px; stroke: white; fill: none; stroke-width: 2.5; }
+.prod-item-body { flex: 1; min-width: 0; }
+.prod-item-title { font-size: 13px; font-weight: 500; color: var(--text); }
+.prod-item-title.crossed { text-decoration: line-through; color: var(--text3); }
+.prod-item-date { font-size: 11px; color: var(--text3); margin-top: 1px; }
+.pri-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.prod-item-arr { font-size: 16px; color: #D1D1D6; flex-shrink: 0; transition: transform 0.2s; }
+.prod-item-arr.open { transform: rotate(90deg); }
+.prod-item-detail { display: none; padding: 0 14px 12px 46px; }
+.prod-item-detail.open { display: block; }
+.detail-text { font-size: 12px; color: var(--text2); line-height: 1.6; margin-bottom: 6px; }
+.done-label { font-size: 11px; color: var(--text3); margin-bottom: 8px; }
+.item-link { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: var(--accent); background: #E8F5EE; padding: 4px 9px; border-radius: 7px; text-decoration: none; font-weight: 500; margin-bottom: 8px; }
+.memo-area { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border); font-size: 12px; color: var(--text); background: var(--bg); resize: none; outline: none; font-family: inherit; min-height: 54px; }
+.memo-area:focus { border-color: var(--accent); background: var(--surface); }
+.memo-save-btn { display: inline-block; margin-top: 5px; padding: 5px 12px; border-radius: 8px; background: var(--accent); color: white; border: none; font-size: 12px; font-weight: 600; cursor: pointer; }
+.edit-row { display: flex; gap: 6px; margin-top: 4px; }
+.edit-input { flex: 1; padding: 7px 10px; border-radius: 8px; border: 1px solid var(--border); font-size: 12px; color: var(--text); background: var(--bg); outline: none; font-family: inherit; }
+.edit-input:focus { border-color: var(--accent); background: var(--surface); }
+.edit-save { padding: 7px 11px; border-radius: 8px; background: var(--accent); color: white; border: none; font-size: 12px; cursor: pointer; font-weight: 600; }
+.prod-add-btn { display: flex; align-items: center; justify-content: center; gap: 5px; padding: 10px; background: var(--bg); cursor: pointer; color: var(--text3); font-size: 12px; font-weight: 500; border: none; width: 100%; }
+.prod-add-form { display: none; padding: 12px 14px; border-top: 1px solid var(--bg); background: var(--surface); }
+.prod-add-form.open { display: block; }
+.cat-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.cat-name-big { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; }
+.cat-cnt { font-size: 12px; color: var(--text3); }
+.prog-strip { margin-bottom: 12px; }
+.ps-track { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.ps-fill { height: 100%; border-radius: 3px; transition: width 0.4s; }
+.ps-nums { display: flex; justify-content: space-between; font-size: 11px; color: var(--text3); margin-top: 5px; }
 
-/* ADD TASK */
-.add-row { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 9px; margin-bottom: 10px; background: #fff !important; border-radius: 12px; border: 1.5px dashed #D1D1D6; cursor: pointer; color: #8E8E93 !important; font-size: 13px; font-weight: 500; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
-.add-form { display: none; background: #fff !important; border-radius: 14px; padding: 14px; margin-bottom: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
-.add-form.open { display: block; }
-.finput { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid #E5E5EA; font-size: 14px; color: #1C1C1E !important; background: #F9F9F9 !important; margin-bottom: 8px; outline: none; font-family: inherit; -webkit-appearance: none; }
-.finput:focus { border-color: #1B7A3E; background: #fff !important; }
-.frow { display: flex; gap: 8px; }
-.fbtns { display: flex; gap: 8px; margin-top: 4px; }
-.fok { flex: 1; padding: 11px; border-radius: 10px; background: #1B7A3E !important; color: #fff !important; border: none; font-size: 14px; font-weight: 600; cursor: pointer; }
-.fcancel { padding: 11px 14px; border-radius: 10px; background: #F2F2F7 !important; color: #8E8E93 !important; border: none; font-size: 14px; cursor: pointer; }
+/* ── 구직/세무 TASK ── */
+.m-group { margin-bottom: 12px; }
+.m-label { font-size: 11px; font-weight: 700; color: #C7C7CC; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; padding: 0 2px; }
+.tc { background: var(--surface); border-radius: 12px; margin-bottom: 5px; overflow: hidden; box-shadow: var(--shadow); }
+.tc.done-tc { opacity: 0.38; }
+.tc.urg { border-left: 3px solid var(--danger); }
+.tc.hi { border-left: 3px solid var(--warning); }
+.tc-head { display: flex; align-items: center; gap: 10px; padding: 11px 13px; cursor: pointer; }
+.tc-chk { width: 22px; height: 22px; border-radius: 7px; border: 1.5px solid #D1D1D6; background: #F9F9F9; flex-shrink: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.tc-chk.on { background: var(--accent); border-color: var(--accent); }
+.tc-chk svg { width: 12px; height: 12px; stroke: white; fill: none; stroke-width: 2.5; }
+.tc-body { flex: 1; min-width: 0; }
+.tc-name { font-size: 13px; font-weight: 500; color: var(--text); }
+.tc-name.crossed { text-decoration: line-through; color: var(--text3); }
+.tc-date { font-size: 11px; color: var(--text3); margin-top: 2px; }
+.tc-arr { font-size: 17px; color: #D1D1D6; flex-shrink: 0; transition: transform 0.2s; }
+.tc-arr.open { transform: rotate(90deg); }
+.tc-det { display: none; padding: 0 13px 11px 45px; }
+.tc-det.open { display: block; }
+.tc-det-text { font-size: 12px; color: var(--text2); line-height: 1.6; margin-bottom: 5px; }
+.tc-done-label { font-size: 11px; color: var(--text3); margin-bottom: 7px; }
+.tc-link { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: var(--accent); background: #E8F5EE; padding: 4px 9px; border-radius: 7px; text-decoration: none; font-weight: 500; margin-bottom: 7px; }
 
-/* PROG STRIP */
-.pstrip { margin-bottom: 12px; }
-.ptrack { height: 5px; background: #E5E5EA; border-radius: 3px; overflow: hidden; }
-.pbar { height: 100%; border-radius: 3px; transition: width 0.4s; }
-.pnums { display: flex; justify-content: space-between; font-size: 11px; color: #8E8E93 !important; margin-top: 5px; }
-
-/* CAT HEADER */
-.cat-hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 0 2px; }
-.cat-name { font-size: 19px; font-weight: 800; letter-spacing: -0.5px; }
-.cat-cnt { font-size: 12px; color: #8E8E93 !important; font-weight: 500; }
-
-/* BOTTOM NAV */
-.bnav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.96) !important; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid #E5E5EA; display: flex; z-index: 200; max-width: 480px; margin: 0 auto; }
-.nbtn { flex: 1; padding: 10px 4px 8px; display: flex; flex-direction: column; align-items: center; gap: 3px; color: #8E8E93 !important; font-size: 10px; text-decoration: none; border: none; background: none; cursor: pointer; }
-.nbtn svg { width: 23px; height: 23px; stroke-width: 1.5; fill: none; stroke: currentColor; }
-.nbtn.on { color: #1B7A3E !important; }
+/* ── BOTTOM NAV ── */
+.bnav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.96); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid var(--border); display: flex; z-index: 200; max-width: 480px; margin: 0 auto; padding-bottom: env(safe-area-inset-bottom, 0); }
+.nbtn { flex: 1; padding: 9px 4px 7px; display: flex; flex-direction: column; align-items: center; gap: 3px; color: var(--text3); font-size: 9px; text-decoration: none; border: none; background: none; cursor: pointer; font-family: inherit; font-weight: 500; }
+.nbtn svg { width: 22px; height: 22px; stroke-width: 1.5; fill: none; stroke: currentColor; }
+.nbtn.on { color: var(--accent); }
 </style>
 </head>
 <body>
 <div class="app">
   <div class="hdr">
-    <div class="hdr-top">
-      <div class="logo">SKINZIP<em>.PLAN</em></div>
-      <div class="date-badge" id="dateBadge"></div>
+    <div class="hdr-row">
+      <div class="logo">REMI<em>.FLOW</em></div>
+      <div class="today" id="todayBadge"></div>
     </div>
-    <div class="dots" id="dots"></div>
+    <div class="page-dots" id="pageDots"></div>
   </div>
   <div class="sw-wrap" id="swWrap">
     <div class="sw-inner" id="swInner">
-      <!-- page 0: master -->
-      <div class="sw-page" id="pg0"></div>
-      <!-- page 1: 구직급여 -->
-      <div class="sw-page" id="pg1"></div>
-      <!-- page 2: SKINZIP 1호+2호+사업재개 -->
-      <div class="sw-page" id="pg2"></div>
-      <!-- page 3: 세무 -->
-      <div class="sw-page" id="pg3"></div>
-      <!-- page 4: 메모 -->
-      <div class="sw-page" id="pg4"></div>
+      <div class="sw-page" id="pg0"></div><!-- 홈 -->
+      <div class="sw-page" id="pg1"></div><!-- 가계부 -->
+      <div class="sw-page" id="pg2"></div><!-- 구직 -->
+      <div class="sw-page" id="pg3"></div><!-- SKINZIP -->
+      <div class="sw-page" id="pg4"></div><!-- 세무 -->
     </div>
   </div>
 </div>
 
 <div class="bnav">
-  <a href="index.html" class="nbtn">
-    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-    가계부
-  </a>
   <button class="nbtn on" id="nb0" onclick="goPage(0)">
-    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    마스터
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>홈
   </button>
   <button class="nbtn" id="nb1" onclick="goPage(1)">
-    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-    구직
+    <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>가계부
   </button>
   <button class="nbtn" id="nb2" onclick="goPage(2)">
-    <svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
-    SKINZIP
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>구직
   </button>
   <button class="nbtn" id="nb3" onclick="goPage(3)">
-    <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-    세무
+    <svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>SKINZIP
   </button>
   <button class="nbtn" id="nb4" onclick="goPage(4)">
-    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-    메모
+    <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>세무
   </button>
 </div>
 
 <script>
+// ══════════════════════════════════
+// DATA
+// ══════════════════════════════════
 const TODAY = new Date();
-const DOT_COLORS = ['#555','#3B82F6','#1B7A3E','#D97706','#7C3AED'];
-const PAGE_LABELS = ['마스터','구직급여','SKINZIP','세무','메모'];
-
-// ── TASKS ──
-let TASKS = [
-  // 구직급여
-  {id:1, cat:'구직', mkey:'2026-09', day:16, date:'9/16', title:'2차 실업인정', detail:'온라인 전송. 직업심리검사 결과지 제출. 구직활동 1회.', done_label:'입금 확인', pri:'urg', url:'https://www.work.go.kr'},
-  {id:2, cat:'구직', mkey:'2026-10', day:14, date:'10/14', title:'3차 실업인정', detail:'온라인 전송. 취업특강 1회 제출. 구직활동 1회.', done_label:'입금 확인', pri:'urg', url:'https://www.work.go.kr'},
-  {id:3, cat:'구직', mkey:'2026-11', day:11, date:'11/11', title:'4차 실업인정 (방문접수)', detail:'방문접수 필수. 취업특강 1회 + 입사지원 1회. 구직활동 2회.', done_label:'입금 확인', pri:'urg', url:'https://www.work.go.kr'},
-  {id:4, cat:'구직', mkey:'2026-12', day:9, date:'12/9', title:'5차 실업인정', detail:'온라인 전송. 내일배움카드 또는 입사지원 포함 구직 2회.', done_label:'입금 확인', pri:'urg', url:'https://www.work.go.kr'},
-  {id:5, cat:'구직', mkey:'2027-01', day:6, date:'1/6', title:'6차 실업인정', detail:'온라인 전송. 내일배움카드 AI교육 + 입사지원 1회.', done_label:'입금 확인', pri:'urg', url:'https://www.work.go.kr'},
-  {id:6, cat:'구직', mkey:'2027-02', day:3, date:'2/3', title:'7차 실업인정', detail:'온라인 전송. 입사지원 포함 구직 2회.', done_label:'입금 확인', pri:'urg', url:'https://www.work.go.kr'},
-  {id:7, cat:'구직', mkey:'2027-03', day:9, date:'3/9', title:'8차 실업인정 (방문·마지막)', detail:'방문접수 필수. 구직활동 5회 제출. 수급 종료.', done_label:'입금+종료 확인', pri:'urg', url:'https://www.work.go.kr'},
-  {id:8, cat:'구직', mkey:'2027-04', day:1, date:'4/1', title:'구직급여 종료일 최종 확인', detail:'고용24 마이페이지 → 실업급여 → 취업드림수첩. 남은 소정급여일수·종료일 메모.', done_label:'종료일 기록', pri:'urg', url:'https://www.work.go.kr'},
-  // 1호 제품
-  {id:10, cat:'1호', mkey:'2026-10', day:20, date:'10월 중', title:'전성분 표기사항 사전 검수 준비', detail:'전성분·책임판매업자·주의사항·사용기한 체크리스트 작성.', done_label:'체크리스트 완성', pri:'urg'},
-  {id:11, cat:'1호', mkey:'2027-02', day:7, date:'2월 1주', title:'전성분 등 표기사항 최종 검수', detail:'연구소와 최신 표기기준 최종 확인. 승인본 확정.', done_label:'승인본 확정', pri:'urg'},
-  {id:12, cat:'1호', mkey:'2027-02', day:10, date:'2월 2주', title:'용기 인쇄 발주', detail:'공용기 인쇄 발주. 발주서·교정본 확보. (사업자 없이 가능한 범위)', done_label:'발주서 발송', pri:'urg'},
-  {id:13, cat:'1호', mkey:'2027-02', day:10, date:'2월 2주', title:'단상자 발주', detail:'최종 문안으로 인쇄 발주. 발주서·납기표 확보.', done_label:'발주서 발송', pri:'urg'},
-  {id:14, cat:'1호', mkey:'2027-02', day:20, date:'2월 말', title:'상세페이지 완성', detail:'피그마 구조 기반 최종 제작. FAQ·표시광고 검토 반영.', done_label:'최종본 확정', pri:'urg'},
-  {id:15, cat:'1호', mkey:'2027-03', day:5, date:'3월 초', title:'연구소 자재 입고 확인', detail:'용기·단상자 연구소 입고 확인. 수량·외관 체크.', done_label:'입고 확인', pri:'urg'},
-  {id:16, cat:'1호', mkey:'2027-03', day:15, date:'3/15(월)', title:'사업자 재개 신고 (홈택스)', detail:'홈택스 휴업→재개업 신고. 재개일 3/15 입력 → 접수증 저장.', done_label:'접수증 저장', pri:'urg', url:'https://www.hometax.go.kr'},
-  {id:17, cat:'1호', mkey:'2027-03', day:15, date:'3/15(월)', title:'통신판매업 재개 신고 (정부24)', detail:'사업자 재개 확인 후 정부24 영업재개 신고.', done_label:'처리 완료', pri:'urg', url:'https://www.gov.kr'},
-  {id:18, cat:'1호', mkey:'2027-03', day:15, date:'3/15(월)', title:'고용센터 사업개시 신고', detail:'홈택스 재개 후 고용센터에 사업개시 사실 신고. 신고기록 보관.', done_label:'신고기록', pri:'urg', url:'https://www.work.go.kr'},
-  {id:19, cat:'1호', mkey:'2027-03', day:15, date:'3/15(월)', title:'제조 의뢰 (사업자 발주 첫날)', detail:'사업자 재개 당일 연구소에 제조 의뢰. 500개 생산일정·결제조건 확정.', done_label:'발주서 발송', pri:'urg'},
-  {id:20, cat:'1호', mkey:'2027-03', day:17, date:'3/15~24', title:'바이럴 마케팅 시작 (론칭 D-30)', detail:'네이버 블로그·카페·지식인 사전 콘텐츠 배포 시작.', done_label:'콘텐츠 배포 시작', pri:'hi'},
-  {id:21, cat:'1호', mkey:'2027-03', day:20, date:'3월 말', title:'네이버스토어 상품 공개 준비', detail:'상품페이지 비공개 상태에서 최종 점검. 판매 준비 완료.', done_label:'점검 완료', pri:'hi'},
-  {id:22, cat:'1호', mkey:'2027-04', day:10, date:'4월 초~중', title:'완제품 입고 + QC', detail:'수량·외관 확인. 누액·토출·인쇄·포장 검수. 재고 등록.', done_label:'입고기록 완료', pri:'urg'},
-  {id:23, cat:'1호', mkey:'2027-04', day:14, date:'4/14 전후', title:'판매 개시 🎉', detail:'네이버스토어 상품 공개. 주문 접수 시작.', done_label:'판매 시작', pri:'urg'},
-  {id:24, cat:'1호', mkey:'2027-04', day:10, date:'4월 초', title:'여름 키워드 정리', detail:'유분·반픔 피부고민 키워드 정리. 키워드 목록 완성.', done_label:'목록 완성', pri:'hi'},
-  {id:25, cat:'1호', mkey:'2027-04', day:20, date:'4/20', title:'재주문 게이트 (1차 평가)', detail:'판매속도·재구매·광고효율·납기 평가. 재주문·보류 결정.', done_label:'결정 완료', pri:'urg'},
-  // 2호 제품
-  {id:30, cat:'2호', mkey:'2026-10', day:10, date:'10월 초', title:'2호 카테고리·컨셉 확정', detail:'1호와 동일 라인. 카테고리·증상 소구 포인트·타겟 확정.', done_label:'컨셉 확정', pri:'urg'},
-  {id:31, cat:'2호', mkey:'2026-10', day:20, date:'10월 중', title:'연구소 샘플 의뢰', detail:'처방 방향 공유. 유료 샘플링 시작.', done_label:'샘플 의뢰 완료', pri:'urg'},
-  {id:32, cat:'2호', mkey:'2026-11', day:15, date:'11~12월', title:'샘플 수령 + 테스트 로그', detail:'사용감·제형·용기적합성 기록. 테스트 기준표 작성.', done_label:'테스트 완료', pri:'hi'},
-  {id:33, cat:'2호', mkey:'2026-12', day:20, date:'12월 말', title:'처방 확정 (올해 안 목표)', detail:'샘플 테스트 결과 반영. 처방 최종 확정.', done_label:'처방 확정', pri:'urg'},
-  {id:34, cat:'2호', mkey:'2027-01', day:20, date:'1월 중', title:'용기·단상자 기획·디자인', detail:'1호와 동일 라인 디자인. 연구소 확인.', done_label:'디자인 완료', pri:'hi'},
-  {id:35, cat:'2호', mkey:'2027-04', day:20, date:'4월 말', title:'2호 생산 결정 게이트', detail:'1호 실적·재고·사업자금 반영. 1호와 동시발주 or 대기 결정.', done_label:'결정 완료', pri:'urg'},
-  // 세무
-  {id:50, cat:'세무', mkey:'2027-01', day:8, date:'1/5~10', title:'2026년 사업자료 정리', detail:'매출 0원 확인. 세금계산서·사업용 카드 매입자료 정리.', done_label:'자료 정리 완료', pri:'urg', url:'https://www.hometax.go.kr'},
-  {id:51, cat:'세무', mkey:'2027-01', day:20, date:'1/10~23', title:'간이과세자 부가세 신고', detail:'홈택스 세금신고 → 간이과세자 정기신고. 마감 1/25.', done_label:'접수완료 확인', pri:'urg', url:'https://www.hometax.go.kr'},
-  {id:52, cat:'세무', mkey:'2027-02', day:10, date:'2/10경', title:'부가세 사후점검', detail:'홈택스 신고내역 정상 확인.', done_label:'확인 완료', pri:'normal', url:'https://www.hometax.go.kr'},
-  {id:53, cat:'세무', mkey:'2027-03', day:15, date:'3/15전후', title:'원천징수영수증 확인', detail:'홈택스 지급명세서 조회. 115만원 환급 검산.', done_label:'PDF 저장', pri:'urg', url:'https://www.hometax.go.kr'},
-  {id:54, cat:'세무', mkey:'2027-04', day:25, date:'4/20~30', title:'종합소득세 준비', detail:'근로·사업소득·비용·연금·보험자료 정리.', done_label:'폴더 완성', pri:'hi', url:'https://www.hometax.go.kr'},
-  {id:55, cat:'세무', mkey:'2027-05', day:5, date:'5/1~10', title:'종소세 신고 필요성 확인', detail:'홈택스 신고안내 유형 확인.', done_label:'유형 확인', pri:'urg', url:'https://www.hometax.go.kr'},
-  {id:56, cat:'세무', mkey:'2027-05', day:15, date:'5/10~20', title:'추가환급 모의계산', detail:'유니베라 근로소득+누락공제 반영 예상세액 계산.', done_label:'계산 완료', pri:'hi', url:'https://www.hometax.go.kr'},
-  {id:57, cat:'세무', mkey:'2027-05', day:15, date:'5/10~20', title:'SKINZIP 비용 경비 검토', detail:'디자인·패키지 비용 사업경비 신고 실익 확인.', done_label:'검토 완료', pri:'hi'},
-  {id:58, cat:'세무', mkey:'2027-05', day:20, date:'5/20경', title:'종소세 제출 여부 결정', detail:'추가환급·사업손실 반영 실익 있으면 제출.', done_label:'결정 완료', pri:'hi'},
-  {id:59, cat:'세무', mkey:'2027-05', day:28, date:'5월 말', title:'종소세 신고 완료 확인', detail:'접수증 저장. 개인지방소득세 연계 확인.', done_label:'접수증 저장', pri:'hi', url:'https://www.hometax.go.kr'},
-];
-
-const MONTH_LABELS = {
+const MN = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+const MONTH_KEYS = ['m9','m10','m11','m12','m1','m2','m3','m4'];
+const MONTH_LABELS = {m9:'9월',m10:'10월',m11:'11월',m12:'12월',m1:'1월',m2:'2월',m3:'3월',m4:'4월'};
+const MONTH_COLORS = ['#4F86C6','#E07B39','#5BAD6F','#9B6DC4','#D94F5C','#3AACB8','#C4934A','#6B8E5E'];
+const ML_FULL = {
   '2026-09':'2026년 9월','2026-10':'2026년 10월','2026-11':'2026년 11월','2026-12':'2026년 12월',
   '2027-01':'2027년 1월','2027-02':'2027년 2월','2027-03':'2027년 3월',
-  '2027-04':'2027년 4월','2027-05':'2027년 5월',
+  '2027-04':'2027년 4월','2027-05':'2027년 5월'
 };
 
-let checked={}, memos=[], nextId=200, addOpenPage=null, memoFormOpen=false;
+// ── 가계부 ──
+const STARTS = {m9:995};
+const BASE_INCOME = {
+  m9:[{day:16,name:'구직급여 2차',amount:190},{day:25,name:'아빠연금',amount:129}],
+  m10:[{day:14,name:'구직급여 3차',amount:190},{day:25,name:'아빠연금',amount:129}],
+  m11:[{day:11,name:'구직급여 4차',amount:190},{day:25,name:'아빠연금',amount:129}],
+  m12:[{day:9,name:'구직급여 5차',amount:190},{day:25,name:'아빠연금',amount:129}],
+  m1:[{day:6,name:'구직급여 6차',amount:190},{day:25,name:'아빠연금',amount:129}],
+  m2:[{day:3,name:'구직급여 7차',amount:190},{day:25,name:'아빠연금',amount:129}],
+  m3:[{day:3,name:'구직급여 8차',amount:220},{day:25,name:'아빠연금',amount:129}],
+  m4:[{day:25,name:'아빠연금',amount:129}]
+};
+const BASE_CARD=[{day:15,name:'롯데카드',amount:15},{day:15,name:'우리카드',amount:15},{day:15,name:'신한카드',amount:120},{day:15,name:'현대카드',amount:50}];
+const BASE_LOAN=[{day:6,name:'우리은행',amount:0.5},{day:15,name:'씨티은행',amount:60},{day:23,name:'스마트저축은행',amount:80},{day:24,name:'우리은행',amount:3},{day:25,name:'다올저축',amount:40},{day:25,name:'JT친애저축은행',amount:44}];
+const BASE_FIXED=[{day:16,name:'교보생명',amount:37}];
+const PENSION_MONTHS=['m10','m11','m12','m1','m2','m3','m4'];
+const BASE_ETC={
+  m9:[{day:4,name:'가족 상황',amount:500,special:true},{day:31,name:'생활비',amount:30}],
+  m10:[{day:31,name:'생활비',amount:30}],m11:[{day:30,name:'생활비',amount:30}],
+  m12:[{day:31,name:'생활비',amount:30}],m1:[{day:31,name:'생활비',amount:30}],
+  m2:[{day:28,name:'생활비',amount:30}],
+  m3:[{day:12,name:'화장품 사업비(발주50%)',amount:100,special:true},{day:13,name:'3PL 입고화물',amount:15,special:true},{day:31,name:'생활비',amount:30}],
+  m4:[{day:30,name:'생활비',amount:30}]
+};
 
-function load(){
+// ── 구직/세무 태스크 ──
+let TASKS = [
+  {id:1,cat:'구직',mkey:'2026-09',day:16,date:'9/16',title:'2차 실업인정',detail:'온라인 전송. 직업심리검사 결과지 제출. 구직활동 1회.',done_label:'입금 확인',pri:'urg',url:'https://www.work.go.kr'},
+  {id:2,cat:'구직',mkey:'2026-10',day:14,date:'10/14',title:'3차 실업인정',detail:'온라인 전송. 취업특강 1회. 구직활동 1회.',done_label:'입금 확인',pri:'urg',url:'https://www.work.go.kr'},
+  {id:3,cat:'구직',mkey:'2026-11',day:11,date:'11/11',title:'4차 실업인정 (방문접수)',detail:'방문접수 필수. 취업특강+입사지원. 구직 2회.',done_label:'입금 확인',pri:'urg',url:'https://www.work.go.kr'},
+  {id:4,cat:'구직',mkey:'2026-12',day:9,date:'12/9',title:'5차 실업인정',detail:'온라인. 내일배움카드 또는 입사지원 포함 구직 2회.',done_label:'입금 확인',pri:'urg',url:'https://www.work.go.kr'},
+  {id:5,cat:'구직',mkey:'2027-01',day:6,date:'1/6',title:'6차 실업인정',detail:'온라인. AI교육 + 입사지원 1회.',done_label:'입금 확인',pri:'urg',url:'https://www.work.go.kr'},
+  {id:6,cat:'구직',mkey:'2027-02',day:3,date:'2/3',title:'7차 실업인정',detail:'온라인. 입사지원 포함 구직 2회.',done_label:'입금 확인',pri:'urg',url:'https://www.work.go.kr'},
+  {id:7,cat:'구직',mkey:'2027-03',day:9,date:'3/9',title:'8차 실업인정 (방문·마지막)',detail:'방문접수 필수. 구직활동 5회. 수급 종료.',done_label:'입금+종료 확인',pri:'urg',url:'https://www.work.go.kr'},
+  {id:8,cat:'구직',mkey:'2027-04',day:1,date:'4/1',title:'구직급여 종료일 확인',detail:'고용24 마이페이지 → 실업급여 → 취업드림수첩.',done_label:'종료일 기록',pri:'urg',url:'https://www.work.go.kr'},
+  {id:50,cat:'세무',mkey:'2027-01',day:8,date:'1/5~10',title:'2026년 사업자료 정리',detail:'매출 0원 확인. 세금계산서·사업용 카드 매입자료 정리.',done_label:'자료 정리 완료',pri:'urg',url:'https://www.hometax.go.kr'},
+  {id:51,cat:'세무',mkey:'2027-01',day:20,date:'1/10~23',title:'간이과세자 부가세 신고',detail:'홈택스 세금신고 → 간이과세자 정기신고. 마감 1/25.',done_label:'접수완료 확인',pri:'urg',url:'https://www.hometax.go.kr'},
+  {id:52,cat:'세무',mkey:'2027-02',day:10,date:'2/10경',title:'부가세 사후점검',detail:'홈택스 신고내역 정상 확인.',done_label:'확인 완료',pri:'normal',url:'https://www.hometax.go.kr'},
+  {id:53,cat:'세무',mkey:'2027-03',day:15,date:'3/15전후',title:'원천징수영수증 확인',detail:'홈택스 지급명세서 조회. 115만원 환급 검산.',done_label:'PDF 저장',pri:'urg',url:'https://www.hometax.go.kr'},
+  {id:54,cat:'세무',mkey:'2027-04',day:25,date:'4/20~30',title:'종합소득세 준비',detail:'근로·사업소득·비용·연금·보험자료 정리.',done_label:'폴더 완성',pri:'hi',url:'https://www.hometax.go.kr'},
+  {id:55,cat:'세무',mkey:'2027-05',day:5,date:'5/1~10',title:'종소세 신고 필요성 확인',detail:'홈택스 신고안내 유형 확인.',done_label:'유형 확인',pri:'urg',url:'https://www.hometax.go.kr'},
+  {id:56,cat:'세무',mkey:'2027-05',day:15,date:'5/10~20',title:'추가환급 모의계산',detail:'유니베라 근로소득+누락공제 반영 예상세액 계산.',done_label:'계산 완료',pri:'hi',url:'https://www.hometax.go.kr'},
+  {id:57,cat:'세무',mkey:'2027-05',day:20,date:'5/20경',title:'종소세 제출 여부 결정',detail:'추가환급·사업손실 반영 실익 있으면 제출.',done_label:'결정 완료',pri:'hi'},
+  {id:58,cat:'세무',mkey:'2027-05',day:28,date:'5월 말',title:'종소세 신고 완료 확인',detail:'접수증 저장. 개인지방소득세 연계 확인.',done_label:'접수증 저장',pri:'hi',url:'https://www.hometax.go.kr'},
+];
+
+// ── SKINZIP 제품 ──
+let PROD1 = [
+  {id:'p1_1',date:'2026-10-20',dateLabel:'10월 중',title:'전성분 표기사항 사전 검수 준비',detail:'전성분·책임판매업자·주의사항·사용기한 체크리스트 작성.',done_label:'체크리스트 완성',pri:'urg'},
+  {id:'p1_2',date:'2027-02-07',dateLabel:'2월 1주',title:'전성분 등 표기사항 최종 검수',detail:'연구소와 최신 표기기준 최종 확인. 승인본 확정.',done_label:'승인본 확정',pri:'urg'},
+  {id:'p1_3',date:'2027-02-10',dateLabel:'2월 2주',title:'용기 인쇄 발주',detail:'공용기 인쇄 발주. 발주서·교정본 확보.',done_label:'발주서 발송',pri:'urg'},
+  {id:'p1_4',date:'2027-02-10',dateLabel:'2월 2주',title:'단상자 발주',detail:'최종 문안으로 인쇄 발주. 납기표 확보.',done_label:'발주서 발송',pri:'urg'},
+  {id:'p1_5',date:'2027-02-20',dateLabel:'2월 말',title:'상세페이지 완성',detail:'피그마 구조 기반 최종 제작. FAQ·표시광고 검토 반영.',done_label:'최종본 확정',pri:'urg'},
+  {id:'p1_6',date:'2027-03-05',dateLabel:'3월 초',title:'연구소 자재 입고 확인',detail:'용기·단상자 연구소 입고 확인. 수량·외관 체크.',done_label:'입고 확인',pri:'urg'},
+  {id:'p1_7',date:'2027-03-15',dateLabel:'3/15(월)',title:'사업자 재개 + 제조 의뢰',detail:'① 홈택스 재개업 신고 → ② 정부24 통신판매업 재개 → ③ 고용센터 사업개시 신고 → ④ 연구소 제조 의뢰.',done_label:'접수증+발주서',pri:'urg',url:'https://www.hometax.go.kr'},
+  {id:'p1_8',date:'2027-03-17',dateLabel:'3/15 이후',title:'바이럴 마케팅 시작 (D-30)',detail:'네이버 블로그·카페·지식인 사전 콘텐츠 배포.',done_label:'콘텐츠 배포 시작',pri:'hi'},
+  {id:'p1_9',date:'2027-04-10',dateLabel:'4월 초~중',title:'완제품 입고 + QC',detail:'수량·외관 확인. 누액·토출·인쇄·포장 검수. 재고 등록.',done_label:'입고기록 완료',pri:'urg'},
+  {id:'p1_10',date:'2027-04-14',dateLabel:'4/14 전후 🎉',title:'판매 개시',detail:'네이버스토어 상품 공개. 주문 접수 시작.',done_label:'판매 시작',pri:'urg'},
+  {id:'p1_11',date:'2027-04-20',dateLabel:'4/20',title:'재주문 게이트 (1차 평가)',detail:'판매속도·재구매·광고효율 평가. 재주문·보류 결정.',done_label:'결정 완료',pri:'urg'},
+];
+let PROD2 = [
+  {id:'p2_1',date:'2026-10-10',dateLabel:'10월 초',title:'카테고리·컨셉 확정',detail:'1호와 동일 라인. 카테고리·증상 소구 포인트·타겟 확정.',done_label:'컨셉 확정',pri:'urg'},
+  {id:'p2_2',date:'2026-10-20',dateLabel:'10월 중',title:'연구소 샘플 의뢰',detail:'처방 방향 공유. 유료 샘플링 시작.',done_label:'샘플 의뢰 완료',pri:'urg'},
+  {id:'p2_3',date:'2026-11-15',dateLabel:'11~12월',title:'샘플 수령 + 테스트 로그',detail:'사용감·제형·용기적합성 기록. 테스트 기준표 작성.',done_label:'테스트 완료',pri:'hi'},
+  {id:'p2_4',date:'2026-12-20',dateLabel:'12월 말',title:'처방 확정 (올해 안 목표)',detail:'샘플 테스트 결과 반영. 처방 최종 확정.',done_label:'처방 확정',pri:'urg'},
+  {id:'p2_5',date:'2027-01-20',dateLabel:'1월 중',title:'용기·단상자 기획·디자인',detail:'1호와 동일 라인 디자인. 연구소 확인.',done_label:'디자인 완료',pri:'hi'},
+  {id:'p2_6',date:'2027-04-20',dateLabel:'4월 말',title:'2호 생산 결정 게이트',detail:'1호 실적·재고·사업자금 반영. 1호와 동시발주 or 대기 결정.',done_label:'결정 완료',pri:'urg'},
+];
+
+// ══════════════════════════════════
+// STATE
+// ══════════════════════════════════
+let state = {};
+let taskChecked = {};
+let taskMemos = {};
+let taskMemoOpen = {};
+let taskEditOpen = {};
+let addFormOpen = {};
+let detOpen = {};
+let curMKey = 'm9';
+let curPage = 0;
+let nextTaskId = 300;
+let addFormOpenCat = null;
+let prodAddOpen = {p1:false,p2:false};
+let savedBal = 995;
+
+function loadAll(){
   try{
-    const s=localStorage.getItem('sp3');
-    if(s){const d=JSON.parse(s);checked=d.checked||{};memos=d.memos||[];const ex=d.extra||[];TASKS=[...TASKS,...ex];nextId=d.nextId||200;}
+    const s = localStorage.getItem('remiflow_v1');
+    if(!s) return;
+    const d = JSON.parse(s);
+    state = d.state||{};
+    taskChecked = d.taskChecked||{};
+    taskMemos = d.taskMemos||{};
+    savedBal = d.savedBal||995;
+    STARTS.m9 = savedBal;
+    if(d.extraTasks) TASKS=[...TASKS,...d.extraTasks];
+    if(d.extraP1) PROD1=[...PROD1,...d.extraP1];
+    if(d.extraP2) PROD2=[...PROD2,...d.extraP2];
+    nextTaskId = d.nextTaskId||300;
+    curMKey = d.curMKey||'m9';
   }catch(e){}
 }
-function save(){
-  const extra=TASKS.filter(t=>t.id>=200);
-  try{localStorage.setItem('sp3',JSON.stringify({checked,memos,extra,nextId}));}catch(e){}
+function saveAll(){
+  try{
+    localStorage.setItem('remiflow_v1',JSON.stringify({
+      state, taskChecked, taskMemos, savedBal:STARTS.m9,
+      extraTasks:TASKS.filter(t=>t.id>=300),
+      extraP1:PROD1.filter(p=>p.id.startsWith('px')),
+      extraP2:PROD2.filter(p=>p.id.startsWith('py')),
+      nextTaskId, curMKey
+    }));
+  }catch(e){}
 }
 
-// date
-const MN=['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
-document.getElementById('dateBadge').textContent=MN[TODAY.getMonth()]+' '+TODAY.getDate()+'일';
-
+// ══════════════════════════════════
+// 가계부 HELPERS
+// ══════════════════════════════════
+function getItems(mk){
+  const fixed=[...BASE_FIXED.map(r=>({...r}))];
+  if(PENSION_MONTHS.includes(mk)) fixed.push({day:25,name:'국민연금 추납',amount:2});
+  const s=state[mk]||{};
+  return {
+    income:[...BASE_INCOME[mk]||[],...(s.income||[])],
+    card:[...(s.cardOverrides?BASE_CARD.map(c=>({...c,amount:s.cardOverrides[c.name]??c.amount})):BASE_CARD.map(c=>({...c}))),...(s.extraCard||[])],
+    loan:[...BASE_LOAN.map(r=>({...r})),...(s.extraLoan||[])],
+    fixed:[...fixed,...(s.extraFixed||[])],
+    etc:[...(BASE_ETC[mk]||[]).map(r=>({...r})),...(s.extraEtc||[])],
+  };
+}
+function calcMonth(mk){
+  const start=STARTS[mk]||0;
+  const items=getItems(mk);
+  const inc=items.income.reduce((a,r)=>a+r.amount,0);
+  const out=[...items.card,...items.loan,...items.fixed,...items.etc].reduce((a,r)=>a+r.amount,0);
+  return{start,inc,out,end:start+inc-out,items};
+}
+function calcAll(){
+  MONTH_KEYS.forEach((mk,i)=>{
+    if(i===0) return;
+    STARTS[mk]=Math.round(calcMonth(MONTH_KEYS[i-1]).end);
+  });
+}
+function fmt(n,sign){
+  const s=Math.abs(Math.round(n)).toLocaleString()+'만';
+  return sign===1?'+'+s:sign===-1?'-'+s:s;
+}
 function taskDate(t){const[y,m]=t.mkey.split('-').map(Number);return new Date(y,m-1,t.day||15);}
 function isThisMonth(t){const d=taskDate(t);return d.getFullYear()===TODAY.getFullYear()&&d.getMonth()===TODAY.getMonth();}
-function daysAway(t){return Math.round((taskDate(t)-TODAY)/(864e5));}
-
+function daysAway(t){return Math.round((taskDate(t)-TODAY)/864e5);}
 function chkSvg(){return'<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>';}
 
-// ── MASTER ──
-function renderMaster(){
-  const total=TASKS.length, done=TASKS.filter(t=>checked[t.id]).length, pct=Math.round(done/total*100);
-  const urgent=TASKS.filter(t=>!checked[t.id]&&t.pri==='urg'&&isThisMonth(t)).slice(0,5);
-  const next7=TASKS.filter(t=>!checked[t.id]&&daysAway(t)>=0&&daysAway(t)<=7).slice(0,5);
+// ══════════════════════════════════
+// HOME
+// ══════════════════════════════════
+function renderHome(){
+  calcAll();
+  const idx=MONTH_KEYS.indexOf(curMKey);
+  const color=MONTH_COLORS[idx];
+  const {start,inc,out,end,items}=calcMonth(curMKey);
 
-  let h=`<div class="sgrid">
-    <div class="sbox"><div class="slabel">전체 진행</div><div class="sval" style="color:#1B7A3E">${pct}%</div><div class="ssub">${done}/${total} 완료</div></div>
-    <div class="sbox"><div class="slabel">남은 항목</div><div class="sval">${total-done}</div><div class="ssub">개</div></div>
-  </div>`;
+  // 전체 일정 진행률
+  const allT=TASKS.length+PROD1.length+PROD2.length;
+  const allD=TASKS.filter(t=>taskChecked[t.id]).length+PROD1.filter(p=>taskChecked[p.id]).length+PROD2.filter(p=>taskChecked[p.id]).length;
+  const pct=allT?Math.round(allD/allT*100):0;
 
-  h+=`<div class="sec-label">🔴 이번달 긴급</div><div class="wcard">`;
-  h+=urgent.length?urgent.map(t=>mrow(t)).join(''):'<div class="empty-box">✅ 이번달 긴급 일정 없음</div>';
-  h+=`</div>`;
-
-  h+=`<div class="sec-label">📅 다음 7일</div><div class="wcard">`;
-  h+=next7.length?next7.map(t=>mrow(t)).join(''):'<div class="empty-box">🎉 7일 내 일정 없음</div>';
-  h+=`</div>`;
-
-  h+=`<div class="sec-label">📊 카테고리</div><div class="wcard">`;
-  [['구직','구직급여','#3B82F6',1],['1호','SKINZIP 1호','#1B7A3E',2],['2호','SKINZIP 2호','#059669',2],['세무','세무','#D97706',3]].forEach(([cat,label,color,pg])=>{
-    const ct=TASKS.filter(t=>t.cat===cat).length, cd=TASKS.filter(t=>t.cat===cat&&checked[t.id]).length, cp=ct?Math.round(cd/ct*100):0;
-    h+=`<div class="crow" onclick="goPage(${pg})" style="cursor:pointer">
-      <div class="cdot" style="background:${color}"></div>
-      <div class="cbody">
-        <div class="ctitle">${label}</div>
-        <div style="height:3px;background:#F2F2F7;border-radius:2px;overflow:hidden;margin-top:4px"><div style="width:${cp}%;height:100%;background:${color};border-radius:2px"></div></div>
+  // 15일/25일 자금
+  const allFlat=[
+    ...items.card.map(t=>({...t,cat:'card',sign:-1})),
+    ...items.loan.map(t=>({...t,cat:'loan',sign:-1})),
+    ...items.fixed.map(t=>({...t,cat:'fixed',sign:-1})),
+    ...items.income.map(t=>({...t,cat:'income',sign:1})),
+  ];
+  const f15=allFlat.filter(t=>[14,15,16].includes(t.day));
+  const f25=allFlat.filter(t=>[23,24,25,26].includes(t.day));
+  const s15=state[curMKey]||{};
+  function fundCard(items,label,fkey){
+    const outItems=items.filter(t=>t.sign===-1);
+    const inItems=items.filter(t=>t.sign===1);
+    const total=outItems.reduce((a,t)=>a+t.amount,0);
+    const totalIn=inItems.reduce((a,t)=>a+t.amount,0);
+    const cks=s15.fundChecks||{};
+    const doneAmt=outItems.filter(t=>cks[fkey+'_'+t.name+'_'+t.day]).reduce((a,t)=>a+t.amount,0);
+    const allDone=outItems.length>0&&outItems.every(t=>cks[fkey+'_'+t.name+'_'+t.day]);
+    const rows=outItems.slice(0,4).map(t=>{
+      const k=fkey+'_'+t.name+'_'+t.day;
+      const ck=cks[k];
+      return`<div class="fund-item${ck?' done-item':''}"><span>${t.name}</span><span>-${Math.round(t.amount).toLocaleString()}만</span></div>`;
+    }).join('');
+    const incRow=totalIn>0?`<div class="fund-item"><span style="color:var(--blue)">수입</span><span style="color:var(--blue)">+${Math.round(totalIn).toLocaleString()}만</span></div>`:'';
+    const remain=doneAmt>0?`<div class="fund-remain"><span style="color:var(--text3)">잔여</span><span style="color:var(--danger)">-${Math.round(total-doneAmt).toLocaleString()}만</span></div>`:'';
+    return`<div class="fund-card">
+      <div class="fund-title">${label}
+        <div class="fund-chk${allDone?' on':''}" onclick="toggleFundAll('${fkey}','${curMKey}')">${chkSvg()}</div>
       </div>
-      <div style="font-size:12px;color:#8E8E93">${cd}/${ct}</div>
+      <div class="fund-total">-${Math.round(total).toLocaleString()}만</div>
+      ${incRow}${rows}${remain}
+    </div>`;
+  }
+
+  // 긴급 일정
+  const urgentT=TASKS.filter(t=>!taskChecked[t.id]&&t.pri==='urg'&&isThisMonth(t)).slice(0,4);
+  const urgentP=[...PROD1,...PROD2].filter(p=>!taskChecked[p.id]&&p.pri==='urg'&&new Date(p.date)>=TODAY&&(new Date(p.date)-TODAY)/864e5<=31).slice(0,3);
+
+  let h=`
+  <div class="stat-grid">
+    <div class="stat-box">
+      <div class="stat-label">📅 ${MN[TODAY.getMonth()]} 예상 잔액</div>
+      <div class="stat-val" style="color:${end<0?'var(--danger)':end<50?'var(--warning)':'var(--text)'}">${Math.round(end).toLocaleString()}만</div>
+      <div class="stat-sub">시작 ${Math.round(start).toLocaleString()}만</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">📊 전체 진행</div>
+      <div class="stat-val" style="color:var(--accent)">${pct}%</div>
+      <div class="stat-sub">${allD}/${allT} 완료</div>
+    </div>
+  </div>
+  <div class="sec-title">💳 이번달 자금 현황</div>
+  <div class="fund-grid">${fundCard(f15,'15일 자금','f15')}${fundCard(f25,'25일 자금','f25')}</div>
+  <div class="sec-title">🔴 이번달 긴급 일정</div>
+  <div class="card">`;
+  if(!urgentT.length&&!urgentP.length){
+    h+=`<div class="empty">✅ 이번달 긴급 일정 없음</div>`;
+  } else {
+    const tcColors={'구직':'#3B82F6','세무':'#D97706'};
+    urgentT.forEach(t=>{
+      const c=tcColors[t.cat]||'#999';
+      const isDone=!!taskChecked[t.id];
+      h+=`<div class="card-row">
+        <div class="dot8" style="background:${c}"></div>
+        <div class="row-body"><div class="row-title">${t.title}</div><div class="row-sub">${t.date}</div></div>
+        <span class="tag" style="background:#EFF6FF;color:${c}">${t.cat}</span>
+        <div class="chk${isDone?' on':''}" onclick="toggleTask(${t.id})">${chkSvg()}</div>
+      </div>`;
+    });
+    urgentP.forEach(p=>{
+      const isDone=!!taskChecked[p.id];
+      const isProd1=PROD1.some(x=>x.id===p.id);
+      h+=`<div class="card-row">
+        <div class="dot8" style="background:${isProd1?'var(--accent)':'var(--accent2)'}"></div>
+        <div class="row-body"><div class="row-title">${p.title}</div><div class="row-sub">${p.dateLabel}</div></div>
+        <span class="tag" style="background:#E8F5EE;color:var(--accent)">${isProd1?'1호':'2호'}</span>
+        <div class="chk${isDone?' on':''}" onclick="toggleProd('${p.id}')">${chkSvg()}</div>
+      </div>`;
+    });
+  }
+  h+=`</div>
+  <div class="sec-title">📈 카테고리 현황</div>
+  <div class="card">`;
+  [['구직','구직급여','#3B82F6',2,TASKS.filter(t=>t.cat==='구직')],
+   ['1호','SKINZIP 1호','var(--accent)',3,PROD1],
+   ['2호','SKINZIP 2호','var(--accent2)',3,PROD2],
+   ['세무','세무','#D97706',4,TASKS.filter(t=>t.cat==='세무')]].forEach(([cat,label,color,pg,list])=>{
+    const tot=list.length,done=list.filter(t=>taskChecked[t.id||t.id]).length;
+    const p=tot?Math.round(done/tot*100):0;
+    h+=`<div class="card-row" onclick="goPage(${pg})" style="cursor:pointer">
+      <div class="dot8" style="background:${color}"></div>
+      <div class="row-body">
+        <div class="row-title">${label}</div>
+        <div style="height:3px;background:var(--bg);border-radius:2px;overflow:hidden;margin-top:4px">
+          <div style="width:${p}%;height:100%;background:${color};border-radius:2px"></div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:var(--text3)">${done}/${tot}</div>
       <div style="color:#D1D1D6;font-size:16px">›</div>
     </div>`;
   });
   h+=`</div>`;
-
   document.getElementById('pg0').innerHTML=h;
 }
 
-function mrow(t){
-  const colors={'구직':'#3B82F6','1호':'#1B7A3E','2호':'#059669','세무':'#D97706'};
-  const tcolor={'구직':'#EFF6FF','1호':'#E8F5EE','2호':'#E8F5EE','세무':'#FFF7ED'};
-  const tlabel={'구직':'구직','1호':'1호','2호':'2호','세무':'세무'};
-  const color=colors[t.cat]||'#999';
-  const isDone=!!checked[t.id];
-  return`<div class="crow">
-    <div class="cdot" style="background:${color}"></div>
-    <div class="cbody"><div class="ctitle">${t.title}</div><div class="csub">${t.date}</div></div>
-    <span class="ctag" style="background:${tcolor[t.cat]};color:${color}">${tlabel[t.cat]}</span>
-    <div class="mchk${isDone?' on':''}" onclick="toggleChk(${t.id})">${chkSvg()}</div>
-  </div>`;
+function toggleFundAll(fkey,mk){
+  if(!state[mk]) state[mk]={};
+  if(!state[mk].fundChecks) state[mk].fundChecks={};
+  const {items}=calcMonth(mk);
+  const allFlat=[...items.card,...items.loan,...items.fixed,...items.income];
+  const days=fkey==='f15'?[14,15,16]:[23,24,25,26];
+  const outItems=allFlat.filter(t=>days.includes(t.day)&&t.sign!==1);
+  const allDone=outItems.every(t=>state[mk].fundChecks[fkey+'_'+t.name+'_'+t.day]);
+  outItems.forEach(t=>{state[mk].fundChecks[fkey+'_'+t.name+'_'+t.day]=!allDone;});
+  saveAll(); renderHome();
 }
 
-// ── 구직급여 (pg1) ──
-function renderKuji(){
-  const tasks=TASKS.filter(t=>t.cat==='구직');
-  const done=tasks.filter(t=>checked[t.id]).length, pct=tasks.length?Math.round(done/tasks.length*100):0;
-  const months=[...new Set(tasks.map(t=>t.mkey))].sort();
-  let h=`<div class="cat-hdr"><div class="cat-name" style="color:#3B82F6">구직급여</div><div class="cat-cnt">${done}/${tasks.length} 완료</div></div>
-  <div class="pstrip"><div class="ptrack"><div class="pbar" style="width:${pct}%;background:#3B82F6"></div></div><div class="pnums"><span>완료 ${done}건</span><span style="font-weight:700;color:#3B82F6">${pct}%</span></div></div>`;
-  months.forEach(mk=>{
-    h+=`<div class="mgrp"><div class="mlabel">${MONTH_LABELS[mk]||mk}</div>`;
-    tasks.filter(t=>t.mkey===mk).forEach(t=>{h+=tcard(t,'#3B82F6');});
+// ══════════════════════════════════
+// 가계부
+// ══════════════════════════════════
+function renderLedger(){
+  calcAll();
+  const idx=MONTH_KEYS.indexOf(curMKey);
+  const color=MONTH_COLORS[idx];
+  const {start,inc,out,end,items}=calcMonth(curMKey);
+  const s=state[curMKey]||{};
+  const checks=s.txChecks||{};
+
+  // 탭
+  let tabs=MONTH_KEYS.map((mk,i)=>{
+    const c=MONTH_COLORS[i];
+    return`<button class="mtab${mk===curMKey?' on':''}" style="${mk===curMKey?`background:${c};border-color:${c};color:white`:''}" onclick="switchMonth('${mk}')">${MONTH_LABELS[mk]}</button>`;
+  }).join('');
+
+  // 날짜순 정렬
+  const allItems=[
+    ...items.income.map((t,i)=>({...t,cat:'income',sign:1,idx:i})),
+    ...items.card.map((t,i)=>({...t,cat:'card',sign:-1,idx:i})),
+    ...items.loan.map((t,i)=>({...t,cat:'loan',sign:-1,idx:i})),
+    ...items.fixed.map((t,i)=>({...t,cat:'fixed',sign:-1,idx:i})),
+    ...items.etc.map((t,i)=>({...t,cat:'etc',sign:-1,idx:i})),
+  ].sort((a,b)=>a.day-b.day);
+  let running=start;
+  allItems.forEach(t=>{running+=t.sign*t.amount;t.running=running;});
+
+  const SECS=[
+    {cat:'income',label:'수입',sign:1,color:'var(--blue)'},
+    {cat:'card',label:'카드 상환',sign:-1,color:'var(--danger)'},
+    {cat:'loan',label:'대출 상환',sign:-1,color:'var(--danger)'},
+    {cat:'fixed',label:'정기 납부',sign:-1,color:'var(--orange)'},
+    {cat:'etc',label:'기타',sign:-1,color:'var(--text3)'},
+  ];
+
+  let h=`<div class="month-tabs">${tabs}</div>
+  <div class="sum-grid">
+    <div class="sum-box"><div class="sum-label">이번달 시작</div><div class="sum-val" style="color:var(--text2)">${Math.round(start).toLocaleString()}만</div></div>
+    <div class="sum-box"><div class="sum-label">이번달 예상</div><div class="sum-val" style="color:${end<0?'var(--danger)':end<50?'var(--warning)':'var(--text)'}">${Math.round(end).toLocaleString()}만</div></div>
+    <div class="sum-box"><div class="sum-label">총 수입</div><div class="sum-val" style="color:var(--blue)">${fmt(inc,1)}</div></div>
+    <div class="sum-box"><div class="sum-label">총 지출</div><div class="sum-val" style="color:var(--danger)">${fmt(out,-1)}</div></div>
+  </div>
+  <div class="prog-bar-wrap"><div class="prog-bar-fill" style="width:${Math.max(0,Math.min(100,end/300*100))}%;background:${color}"></div></div>`;
+
+  SECS.forEach(sec=>{
+    const list=allItems.filter(t=>t.cat===sec.cat);
+    if(!list.length) return;
+    const subtotal=list.reduce((a,t)=>a+t.amount,0);
+    const doneAmt=list.filter(t=>checks[sec.cat+'_'+t.idx]).reduce((a,t)=>a+t.amount,0);
+    const doneTag=doneAmt>0?` <span style="font-size:10px;color:var(--accent)">(${Math.round(doneAmt).toLocaleString()}만 완료)</span>`:'';
+    h+=`<div class="tx-section">
+      <div class="tx-sec-head">
+        <span class="tx-sec-label">${sec.label}</span>
+        <span class="tx-sec-total" style="color:${sec.color}">${fmt(subtotal,sec.sign)}${doneTag}</span>
+      </div>`;
+    list.forEach(t=>{
+      const ck=checks[sec.cat+'_'+t.idx];
+      h+=`<div class="tx-card">
+        <div class="tx-row${ck?' done-tx':''}">
+          <div class="chk${ck?' on':''}" onclick="toggleTx('${sec.cat}',${t.idx},'${curMKey}')">${chkSvg()}</div>
+          <div class="tx-body">
+            <div class="tx-name${ck?' crossed':''}">${t.name}</div>
+            <div class="tx-date">${t.day}일</div>
+          </div>
+          <div class="tx-right">
+            <div class="tx-amount ${sec.sign===1?'income':'expense'}">${fmt(t.amount,sec.sign)}</div>
+            <div class="tx-balance" style="${t.running<0?'color:var(--danger)':''}">${Math.round(t.running).toLocaleString()}만</div>
+          </div>
+        </div>
+      </div>`;
+    });
+    h+=`<button class="add-item-btn" onclick="toggleAddForm('${sec.cat}')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>항목 추가
+    </button>
+    <div class="inline-form${addFormOpen[sec.cat]?' open':''}" id="af-${sec.cat}">
+      <div class="fi-row">
+        <input class="fi" type="number" id="fi-day-${sec.cat}" placeholder="일" style="max-width:60px;margin-bottom:0">
+        <input class="fi" type="text" id="fi-name-${sec.cat}" placeholder="항목명" style="margin-bottom:0">
+        <input class="fi" type="number" id="fi-amt-${sec.cat}" placeholder="금액(만)" style="max-width:80px;margin-bottom:0">
+      </div>
+      <div class="f-btns" style="margin-top:7px">
+        <button class="f-ok" onclick="addTxItem('${sec.cat}','${curMKey}')">추가</button>
+        <button class="f-cancel" onclick="toggleAddForm('${sec.cat}')">취소</button>
+      </div>
+    </div>`;
     h+=`</div>`;
   });
-  h+=addBtn('구직');
+
+  h+=`<div class="totals-card">
+    <div class="tot-row"><span style="color:var(--text3)">시작 잔액</span><span>${Math.round(start).toLocaleString()}만</span></div>
+    <div class="tot-row"><span style="color:var(--blue)">+ 총 수입</span><span style="color:var(--blue)">${fmt(inc,1)}</span></div>
+    <div class="tot-row"><span style="color:var(--danger)">− 총 지출</span><span style="color:var(--danger)">${fmt(out,-1)}</span></div>
+    <div class="tot-row big"><span>예상 잔액</span><span style="color:${end<0?'var(--danger)':end<50?'var(--warning)':'var(--text)'}">${Math.round(end).toLocaleString()}만</span></div>
+  </div>`;
+
   document.getElementById('pg1').innerHTML=h;
 }
 
-// ── SKINZIP 병렬 + 사업재개 (pg2) ──
-function renderSkinzip(){
-  const t1=TASKS.filter(t=>t.cat==='1호'), t2=TASKS.filter(t=>t.cat==='2호');
-  const d1=t1.filter(t=>checked[t.id]).length, d2=t2.filter(t=>checked[t.id]).length;
-  const p1=t1.length?Math.round(d1/t1.length*100):0, p2=t2.length?Math.round(d2/t2.length*100):0;
+function switchMonth(mk){ curMKey=mk; saveAll(); renderLedger(); renderHome(); }
+function toggleTx(cat,idx,mk){
+  if(!state[mk]) state[mk]={};
+  if(!state[mk].txChecks) state[mk].txChecks={};
+  const k=cat+'_'+idx;
+  state[mk].txChecks[k]=!state[mk].txChecks[k];
+  saveAll(); renderLedger(); renderHome();
+}
+function toggleAddForm(cat){addFormOpen[cat]=!addFormOpen[cat];renderLedger();}
+function addTxItem(cat,mk){
+  const day=parseInt(document.getElementById('fi-day-'+cat).value);
+  const name=document.getElementById('fi-name-'+cat).value.trim();
+  const amt=parseFloat(document.getElementById('fi-amt-'+cat).value);
+  if(!day||!name||isNaN(amt)) return;
+  if(!state[mk]) state[mk]={};
+  const key='extra'+cat.charAt(0).toUpperCase()+cat.slice(1);
+  if(!state[mk][key]) state[mk][key]=[];
+  state[mk][key].push({day,name,amount:amt});
+  addFormOpen[cat]=false; saveAll(); renderLedger(); renderHome();
+}
 
-  let h=`<div class="cat-hdr"><div class="cat-name" style="color:#1B7A3E">SKINZIP</div></div>`;
-
-  // 병렬 요약
-  h+=`<div class="dual">
-    <div class="dual-col">
-      <div class="dual-head" style="background:#E8F5EE;color:#1B7A3E">1호 제품 <span style="font-size:10px;opacity:0.7">${d1}/${t1.length}</span></div>`;
-  t1.slice(0,4).forEach(t=>{
-    h+=`<div class="dual-item">
-      <div class="dual-item-dot" style="background:${t.pri==='urg'?'#FF3B30':t.pri==='hi'?'#FF9500':'#C7C7CC'}"></div>
-      <div class="dual-item-text${checked[t.id]?' crossed':''}">${t.title}</div>
-      <div class="dchk${checked[t.id]?' on':''}" onclick="toggleChk(${t.id})">${chkSvg()}</div>
-    </div>`;
-  });
-  if(t1.length>4) h+=`<div style="padding:8px 12px;font-size:11px;color:#8E8E93">+${t1.length-4}개 더보기 ↓</div>`;
-  h+=`</div>
-    <div class="dual-col">
-      <div class="dual-head" style="background:#E3F7F0;color:#059669">2호 제품 <span style="font-size:10px;opacity:0.7">${d2}/${t2.length}</span></div>`;
-  t2.slice(0,4).forEach(t=>{
-    h+=`<div class="dual-item">
-      <div class="dual-item-dot" style="background:${t.pri==='urg'?'#FF3B30':t.pri==='hi'?'#FF9500':'#C7C7CC'}"></div>
-      <div class="dual-item-text${checked[t.id]?' crossed':''}">${t.title}</div>
-      <div class="dchk${checked[t.id]?' on':''}" onclick="toggleChk(${t.id})">${chkSvg()}</div>
-    </div>`;
-  });
-  if(t2.length>4) h+=`<div style="padding:8px 12px;font-size:11px;color:#8E8E93">+${t2.length-4}개 더보기 ↓</div>`;
-  h+=`</div></div>`;
-
-  // 전체 타임라인
-  h+=`<div class="sec-label">전체 타임라인</div>`;
-  const all=[...t1,...t2].sort((a,b)=>a.mkey.localeCompare(b.mkey)||a.day-b.day);
-  const months=[...new Set(all.map(t=>t.mkey))].sort();
+// ══════════════════════════════════
+// 구직/세무 공통
+// ══════════════════════════════════
+function renderTaskPage(pgId,cat,color,label){
+  const tasks=TASKS.filter(t=>t.cat===cat);
+  const done=tasks.filter(t=>taskChecked[t.id]).length,pct=tasks.length?Math.round(done/tasks.length*100):0;
+  const months=[...new Set(tasks.map(t=>t.mkey))].sort();
+  let h=`<div class="cat-head"><div class="cat-name-big" style="color:${color}">${label}</div><div class="cat-cnt">${done}/${tasks.length}</div></div>
+  <div class="prog-strip"><div class="ps-track"><div class="ps-fill" style="width:${pct}%;background:${color}"></div></div>
+  <div class="ps-nums"><span>완료 ${done}건</span><span style="font-weight:700;color:${color}">${pct}%</span></div></div>`;
   months.forEach(mk=>{
-    h+=`<div class="mgrp"><div class="mlabel">${MONTH_LABELS[mk]||mk}</div>`;
-    all.filter(t=>t.mkey===mk).forEach(t=>{
-      const color=t.cat==='1호'?'#1B7A3E':'#059669';
-      h+=tcard(t,color);
+    const mt=tasks.filter(t=>t.mkey===mk);
+    h+=`<div class="m-group"><div class="m-label">${ML_FULL[mk]||mk}</div>`;
+    mt.forEach(t=>{
+      const isDone=!!taskChecked[t.id];
+      const pc=t.pri==='urg'?' urg':t.pri==='hi'?' hi':'';
+      const link=t.url?`<a href="${t.url}" target="_blank" class="tc-link">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>바로가기</a>`:'';
+      const memo=taskMemos[t.id]||'';
+      const mopen=taskMemoOpen[t.id];
+      h+=`<div class="tc${isDone?' done-tc':''}${pc}" id="tc${t.id}">
+        <div class="tc-head" onclick="togDet('tc',${t.id})">
+          <div class="tc-chk${isDone?' on':''}" onclick="event.stopPropagation();toggleTask(${t.id})">${chkSvg()}</div>
+          <div class="tc-body">
+            <div class="tc-name${isDone?' crossed':''}">${t.title}</div>
+            <div class="tc-date">${t.date}</div>
+          </div>
+          <div class="tc-arr${detOpen['tc'+t.id]?' open':''}" id="tarr${t.id}">›</div>
+        </div>
+        <div class="tc-det${detOpen['tc'+t.id]?' open':''}" id="tdet${t.id}">
+          <div class="tc-det-text">${t.detail}</div>
+          <div class="tc-done-label">완료기준: ${t.done_label}</div>
+          ${link}
+          <div style="margin-top:6px">
+            <textarea class="memo-area" id="ma${t.id}" placeholder="메모 입력...">${memo}</textarea>
+            <button class="memo-save-btn" onclick="saveMemo(${t.id})">저장</button>
+          </div>
+        </div>
+      </div>`;
     });
     h+=`</div>`;
   });
-  h+=addBtn('1호');
-  document.getElementById('pg2').innerHTML=h;
+  // 추가 버튼
+  const afk='af_'+cat;
+  h+=`<button class="add-item-btn" onclick="togAddTask('${cat}')">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>일정 추가
+  </button>
+  <div class="inline-form${addFormOpen[afk]?' open':''}" id="${afk}">
+    <input class="fi" type="text" id="${afk}-title" placeholder="일정 제목">
+    <div class="fi-row" style="margin-bottom:7px">
+      <input class="fi" type="text" id="${afk}-date" placeholder="날짜 (예: 1/15)" style="margin-bottom:0">
+      <select class="fi" id="${afk}-mkey" style="margin-bottom:0">
+        ${Object.entries(ML_FULL).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}
+      </select>
+    </div>
+    <input class="fi" type="text" id="${afk}-detail" placeholder="세부 내용">
+    <div class="f-btns">
+      <button class="f-ok" onclick="addTaskItem('${cat}')">추가</button>
+      <button class="f-cancel" onclick="togAddTask('${cat}')">취소</button>
+    </div>
+  </div>`;
+  document.getElementById(pgId).innerHTML=h;
 }
 
-// ── 세무 (pg3) ──
-function renderSemu(){
-  const tasks=TASKS.filter(t=>t.cat==='세무');
-  const done=tasks.filter(t=>checked[t.id]).length, pct=tasks.length?Math.round(done/tasks.length*100):0;
-  const months=[...new Set(tasks.map(t=>t.mkey))].sort();
-  let h=`<div class="cat-hdr"><div class="cat-name" style="color:#D97706">세무</div><div class="cat-cnt">${done}/${tasks.length} 완료</div></div>
-  <div class="pstrip"><div class="ptrack"><div class="pbar" style="width:${pct}%;background:#D97706"></div></div><div class="pnums"><span>완료 ${done}건</span><span style="font-weight:700;color:#D97706">${pct}%</span></div></div>`;
-  months.forEach(mk=>{
-    h+=`<div class="mgrp"><div class="mlabel">${MONTH_LABELS[mk]||mk}</div>`;
-    tasks.filter(t=>t.mkey===mk).forEach(t=>{h+=tcard(t,'#D97706');});
-    h+=`</div>`;
+function togDet(prefix,id){
+  const k=prefix+id;
+  detOpen[k]=!detOpen[k];
+  renderAll();
+}
+function toggleTask(id){taskChecked[id]=!taskChecked[id];saveAll();renderAll();}
+function toggleProd(id){taskChecked[id]=!taskChecked[id];saveAll();renderAll();}
+function saveMemo(id){
+  const el=document.getElementById('ma'+id);
+  if(el){taskMemos[id]=el.value;saveAll();}
+}
+function togAddTask(cat){const k='af_'+cat;addFormOpen[k]=!addFormOpen[k];renderAll();}
+function addTaskItem(cat){
+  const k='af_'+cat;
+  const title=document.getElementById(k+'-title').value.trim();
+  const date=document.getElementById(k+'-date').value.trim();
+  const mkey=document.getElementById(k+'-mkey').value;
+  const detail=document.getElementById(k+'-detail').value.trim();
+  if(!title) return;
+  const[y,m]=mkey.split('-').map(Number);
+  TASKS.push({id:nextTaskId++,cat,mkey,day:15,date:date||'날짜 미정',title,detail:detail||'-',done_label:'완료 확인',pri:'normal'});
+  addFormOpen[k]=false; saveAll(); renderAll();
+}
+
+// ══════════════════════════════════
+// SKINZIP 제품 카드
+// ══════════════════════════════════
+function prodCard(prods,prodKey,name,color,bg){
+  const done=prods.filter(p=>taskChecked[p.id]).length,pct=prods.length?Math.round(done/prods.length*100):0;
+  const sorted=[...prods].sort((a,b)=>new Date(a.date)-new Date(b.date));
+  let h=`<div class="prod-card">
+    <div class="prod-head">
+      <div class="prod-title-row">
+        <div class="prod-name" style="color:${color}">${name}</div>
+        <span class="prod-badge" style="background:${bg};color:${color}">${done}/${prods.length} 완료</span>
+      </div>
+      <div class="prod-prog-wrap"><div class="prod-prog" style="width:${pct}%;background:${color}"></div></div>
+      <div class="prod-prog-nums"><span>완료 ${done}건</span><span style="font-weight:700;color:${color}">${pct}%</span></div>
+    </div>
+    <div class="prod-items">`;
+  sorted.forEach(p=>{
+    const isDone=!!taskChecked[p.id];
+    const priColor=p.pri==='urg'?'var(--danger)':p.pri==='hi'?'var(--warning)':'#D1D1D6';
+    const dk='det_'+p.id;
+    const memo=taskMemos[p.id]||'';
+    const link=p.url?`<a href="${p.url}" target="_blank" class="item-link">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>바로가기</a>`:'';
+    h+=`<div class="prod-item${isDone?' done-tc':''}">
+      <div class="prod-item-head" onclick="togProdDet('${p.id}')">
+        <div class="prod-item-chk${isDone?' on':''}" onclick="event.stopPropagation();toggleProd('${p.id}')">${chkSvg()}</div>
+        <div class="pri-dot" style="background:${priColor}"></div>
+        <div class="prod-item-body">
+          <div class="prod-item-title${isDone?' crossed':''}">${p.title}</div>
+          <div class="prod-item-date">${p.dateLabel}</div>
+        </div>
+        <div class="prod-item-arr${detOpen[dk]?' open':''}" id="parr${p.id}">›</div>
+      </div>
+      <div class="prod-item-detail${detOpen[dk]?' open':''}" id="pdet${p.id}">
+        <div class="detail-text">${p.detail}</div>
+        <div class="done-label">완료기준: ${p.done_label}</div>
+        ${link}
+        <div style="margin-bottom:4px;font-size:11px;color:var(--text3)">날짜·내용 수정:</div>
+        <div class="edit-row">
+          <input class="edit-input" type="text" id="ed-date-${p.id}" value="${p.dateLabel}" placeholder="날짜">
+          <input class="edit-input" type="text" id="ed-title-${p.id}" value="${p.title}" placeholder="제목">
+          <button class="edit-save" onclick="saveProdEdit('${p.id}','${prodKey}')">저장</button>
+        </div>
+        <div style="margin-top:8px">
+          <textarea class="memo-area" id="pma${p.id}" placeholder="메모...">${memo}</textarea>
+          <button class="memo-save-btn" onclick="saveProdMemo('${p.id}')">저장</button>
+        </div>
+      </div>
+    </div>`;
   });
-  h+=addBtn('세무');
+  // 추가
+  const afk='af_'+prodKey;
+  h+=`<button class="prod-add-btn" onclick="togProdAdd('${prodKey}')">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> 일정 추가
+  </button>
+  <div class="prod-add-form${addFormOpen[afk]?' open':''}" id="${afk}">
+    <input class="fi" type="text" id="${afk}-title" placeholder="일정 제목">
+    <input class="fi" type="date" id="${afk}-date">
+    <input class="fi" type="text" id="${afk}-datelabel" placeholder="날짜 표시 (예: 2월 2주)">
+    <input class="fi" type="text" id="${afk}-detail" placeholder="세부 내용">
+    <div class="f-btns">
+      <button class="f-ok" onclick="addProdItem('${prodKey}')">추가</button>
+      <button class="f-cancel" onclick="togProdAdd('${prodKey}')">취소</button>
+    </div>
+  </div>`;
+  h+=`</div></div>`;
+  return h;
+}
+
+function renderSkinzip(){
+  let h=`<div class="cat-head"><div class="cat-name-big" style="color:var(--accent)">SKINZIP</div></div>`;
+  h+=prodCard(PROD1,'p1','1호 제품','var(--accent)','#E8F5EE');
+  h+=prodCard(PROD2,'p2','2호 제품','var(--accent2)','#E3F7F0');
   document.getElementById('pg3').innerHTML=h;
 }
 
-function tcard(t,color){
-  const isDone=!!checked[t.id];
-  const priCls=t.pri==='urg'?' urg':t.pri==='hi'?' hi':'';
-  const link=t.url?`<a href="${t.url}" target="_blank" class="tlink">
-    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>바로가기</a>`:'';
-  return`<div class="tc${isDone?' done':''}${priCls}" id="tc${t.id}">
-    <div class="thead" onclick="togDet(${t.id})">
-      <div class="tchk${isDone?' on':''}" onclick="event.stopPropagation();toggleChk(${t.id})">${chkSvg()}</div>
-      <div class="tbody">
-        <div class="tname${isDone?' crossed':''}">${t.title}</div>
-        <div class="tdate">${t.date}</div>
-      </div>
-      <div class="tarr" id="arr${t.id}">›</div>
-    </div>
-    <div class="tdet" id="det${t.id}">
-      <div class="tdet-text">${t.detail}</div>
-      <div class="tdet-done">완료기준: ${t.done_label}</div>
-      ${link}
-    </div>
-  </div>`;
+function togProdDet(id){
+  const k='det_'+id;
+  detOpen[k]=!detOpen[k];
+  renderSkinzip();
 }
-
-function addBtn(cat){
-  const fid='af-'+cat;
-  return`<button class="add-row" onclick="togAddForm('${cat}')">
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>일정 추가
-  </button>
-  <div class="add-form" id="${fid}">
-    <input class="finput" type="text" id="${fid}-title" placeholder="일정 제목">
-    <div class="frow">
-      <input class="finput" type="text" id="${fid}-date" placeholder="날짜 표시 (예: 2/15)" style="flex:1;margin-bottom:0">
-      <select class="finput" id="${fid}-mkey" style="flex:1;margin-bottom:0;margin-left:0">
-        ${Object.entries(MONTH_LABELS).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}
-      </select>
-    </div>
-    <input class="finput" type="text" id="${fid}-detail" placeholder="세부 내용 (선택)" style="margin-top:8px">
-    <div class="fbtns">
-      <button class="fok" onclick="addTask('${cat}')">추가</button>
-      <button class="fcancel" onclick="togAddForm('${cat}')">취소</button>
-    </div>
-  </div>`;
+function togProdAdd(key){const k='af_'+key;addFormOpen[k]=!addFormOpen[k];renderSkinzip();}
+function saveProdEdit(id,key){
+  const dl=document.getElementById('ed-date-'+id).value.trim();
+  const tt=document.getElementById('ed-title-'+id).value.trim();
+  const arr=key==='p1'?PROD1:PROD2;
+  const p=arr.find(x=>x.id===id);
+  if(p){if(dl)p.dateLabel=dl;if(tt)p.title=tt;}
+  saveAll(); renderSkinzip();
 }
-
-function togAddForm(cat){
-  const el=document.getElementById('af-'+cat);
-  if(el) el.classList.toggle('open');
+function saveProdMemo(id){
+  const el=document.getElementById('pma'+id);
+  if(el){taskMemos[id]=el.value;saveAll();}
 }
-
-function addTask(cat){
-  const fid='af-'+cat;
-  const title=document.getElementById(fid+'-title').value.trim();
-  const date=document.getElementById(fid+'-date').value.trim();
-  const mkey=document.getElementById(fid+'-mkey').value;
-  const detail=document.getElementById(fid+'-detail').value.trim();
+function addProdItem(key){
+  const k='af_'+key;
+  const title=document.getElementById(k+'-title').value.trim();
+  const date=document.getElementById(k+'-date').value||'2027-01-15';
+  const dl=document.getElementById(k+'-datelabel').value.trim()||'날짜 미정';
+  const detail=document.getElementById(k+'-detail').value.trim();
   if(!title) return;
-  TASKS.push({id:nextId++,cat,mkey,day:15,date:date||'날짜 미정',title,detail:detail||'-',done_label:'완료 확인',pri:'normal'});
-  save(); togAddForm(cat); renderAll();
+  const newId=(key==='p1'?'px':'py')+nextTaskId++;
+  const item={id:newId,date,dateLabel:dl,title,detail:detail||'-',done_label:'완료 확인',pri:'normal'};
+  if(key==='p1') PROD1.push(item); else PROD2.push(item);
+  addFormOpen[k]=false; saveAll(); renderSkinzip();
 }
 
-// ── 메모 (pg4) ──
-function renderMemo(){
-  let h=`<div class="cat-hdr"><div class="cat-name" style="color:#7C3AED">메모</div><div class="cat-cnt">${memos.length}개</div></div>`;
-  h+=`<div class="memo-box">
-    <div class="memo-head">
-      <span class="memo-head-title">📝 노트</span>
-      <button class="memo-add-btn" onclick="togMemoForm()">+ 추가</button>
-    </div>
-    <div class="memo-form${memoFormOpen?' open':''}" id="memoForm">
-      <textarea class="memo-textarea" id="memoInput" placeholder="메모를 입력하세요..."></textarea>
-      <div class="memo-btns">
-        <button class="mbtn-ok" onclick="addMemo()">저장</button>
-        <button class="mbtn-cancel" onclick="togMemoForm()">취소</button>
-      </div>
-    </div>
-    <div class="memo-list">`;
-  if(!memos.length) h+=`<div class="empty-box" style="padding:20px">메모가 없어요.<br>+ 추가 버튼을 눌러 메모를 남겨보세요.</div>`;
-  else memos.slice().reverse().forEach((m,ri)=>{
-    const i=memos.length-1-ri;
-    h+=`<div class="memo-item">
-      <div class="memo-dot"></div>
-      <div class="memo-text">${m.text}</div>
-      <button class="memo-del" onclick="delMemo(${i})">×</button>
-    </div>`;
-  });
-  h+=`</div></div>`;
-  document.getElementById('pg4').innerHTML=h;
-}
-
-function togMemoForm(){memoFormOpen=!memoFormOpen;renderMemo();}
-function addMemo(){
-  const el=document.getElementById('memoInput');
-  const text=el?el.value.trim():'';
-  if(!text) return;
-  memos.push({text,ts:Date.now()});
-  memoFormOpen=false; save(); renderMemo();
-}
-function delMemo(i){memos.splice(i,1);save();renderMemo();}
-
-// ── INTERACTIONS ──
-function toggleChk(id){
-  checked[id]=!checked[id]; save(); renderAll();
-}
-function togDet(id){
-  const d=document.getElementById('det'+id), a=document.getElementById('arr'+id);
-  if(!d) return;
-  const o=d.classList.toggle('open');
-  if(a){a.classList.toggle('open',o);a.style.transform=o?'rotate(90deg)':'';};
-}
-
-// ── NAV & SWIPE ──
-let curPage=0;
-
-function renderDots(){
-  document.getElementById('dots').innerHTML=Array(5).fill(0).map((_,i)=>
-    `<div class="dot${i===curPage?' on':''}" style="${i===curPage?'background:'+DOT_COLORS[i]+';':''}""></div>`
-  ).join('');
-  ['nb0','nb1','nb2','nb3','nb4'].forEach((id,i)=>{
-    const el=document.getElementById(id);
-    if(el) el.className='nbtn'+(i===curPage?' on':'');
-  });
-}
+// ══════════════════════════════════
+// NAV & SWIPE
+// ══════════════════════════════════
+const DOT_COLORS=['#555','var(--blue)','#3B82F6','var(--accent)','var(--orange)'];
+let curPageIdx=0;
 
 function goPage(n){
-  curPage=Math.max(0,Math.min(4,n));
-  const inner=document.getElementById('swInner');
-  inner.style.transform=`translateX(-${curPage*100}%)`;
-  renderDots();
+  curPageIdx=Math.max(0,Math.min(4,n));
+  document.getElementById('swInner').style.transform=`translateX(-${curPageIdx*100}%)`;
+  updateNav();
+}
+function updateNav(){
+  ['nb0','nb1','nb2','nb3','nb4'].forEach((id,i)=>{
+    const el=document.getElementById(id);
+    if(el) el.className='nbtn'+(i===curPageIdx?' on':'');
+  });
+  document.getElementById('pageDots').innerHTML=Array(5).fill(0).map((_,i)=>{
+    const colors=['#555','#3B82F6','#3B82F6','#1B7A3E','#D97706'];
+    return`<div class="pdot${i===curPageIdx?' on':''}" style="${i===curPageIdx?`background:${colors[i]};`:''}""></div>`;
+  }).join('');
 }
 
 (function(){
@@ -549,19 +882,28 @@ function goPage(n){
     if(!moved)return;
     const dx=e.changedTouches[0].clientX-sx;
     if(Math.abs(dx)<40)return;
-    goPage(dx<0?curPage+1:curPage-1);
+    goPage(dx<0?curPageIdx+1:curPageIdx-1);
   },{passive:true});
 })();
 
 function renderAll(){
-  renderMaster(); renderKuji(); renderSkinzip(); renderSemu(); renderMemo(); renderDots();
+  calcAll();
+  renderHome();
+  renderLedger();
+  renderTaskPage('pg2','구직','#3B82F6','구직급여');
+  renderSkinzip();
+  renderTaskPage('pg4','세무','#D97706','세무');
+  updateNav();
   const inner=document.getElementById('swInner');
   inner.style.transition='none';
-  inner.style.transform=`translateX(-${curPage*100}%)`;
+  inner.style.transform=`translateX(-${curPageIdx*100}%)`;
   setTimeout(()=>{inner.style.transition='';},30);
 }
 
-load(); renderAll();
+// INIT
+document.getElementById('todayBadge').textContent=MN[TODAY.getMonth()]+' '+TODAY.getDate()+'일';
+loadAll();
+renderAll();
 </script>
 </body>
 </html>
